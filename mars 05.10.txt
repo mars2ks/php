@@ -1,0 +1,285 @@
+atividade 1:
+index.html - <?php
+<?php
+
+if(isset($_COOKIE["nome"])){
+    header("Location: welcome.php");
+    exit();
+}
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $nome = $_POST["nome"];
+    $senha = $_POST["senha"];
+    $remember = $_POST["remember"];
+
+    if($nome=="rodrigo" && $senha=="123") {
+        //verificar se ele marcou lembre-se de mim
+        if($remember){
+            setcookie("nome", $nome, time()+3600);
+        }
+        header("Location: welcome.php");
+        exit();
+
+    } else {
+        echo "<p style='color:red;'>Usuário ou senha incorretos.</p>";
+    }
+
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="index.php" method="post">
+        Nome: <input type="text" name="nome" required><br>
+        Senha: <input type="password" name="senha" required><br>
+        <input type="checkbox" name="remember">Lembre-se de mim<br>
+        <button type="submit">Login</button>
+    </form>
+    
+</body>
+</html>
+
+
+logout.php -  <?php
+
+setcookie("nome", "rodrigo", time()-3600);
+header("Location: index.php");
+exit();
+
+
+welcome.php - <?php
+$nome = $_COOKIE['nome'];
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+</head>
+<body>
+    <h2> Seja bem vindo! <?php echo $nome ?>! </h2>
+    <a href="logout.php">Logout</a>
+    
+</body>
+</html>
+
+_______________________________________________________________________________________________________________________________________________________
+
+atividade 2:
+index.html - <?php
+session_start();
+
+if (isset($_SESSION["nome"])) {
+    header("Location: welcome.php");
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST["nome"];
+    $senha = $_POST["senha"];
+    $remember = isset($_POST["remember"]);
+
+      if ($nome == "mars" && $senha == "123") {
+        // Inicializa a sessão
+        $_SESSION["nome"] = $nome;
+
+              if ($remember) {
+            setcookie("nome", $nome, time() + 3600);
+        }
+
+        header("Location: welcome.php");
+        exit();
+    } else {
+        echo "<p style='color:red;'>Usuário ou senha incorretos.</p>";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="index.php" method="post">
+        Nome: <input type="text" name="nome" required><br>
+        Senha: <input type="password" name="senha" required><br>
+        <input type="checkbox" name="remember">Lembre-se de mim<br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+
+logout.php -  <?php
+session_start();
+session_unset();
+session_destroy();
+setcookie("nome", "", time() - 3600);
+header("Location: index.php");
+exit();
+?>
+
+
+welcome.php - <?php
+session_start();
+if (!isset($_SESSION["nome"])) {
+    header("Location: index.php");
+    exit();
+}
+
+
+$_SESSION["visitas"] = isset($_SESSION["visitas"]) ? $_SESSION["visitas"] + 1 : 1;
+
+$nome = $_SESSION["nome"];
+$visitas = $_SESSION["visitas"];
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+</head>
+<body>
+    <h2>Seja bem-vindo, <?php echo htmlspecialchars($nome); ?>!</h2>
+    <p><?php echo "Esta é sua {$visitas}ª visita."; ?></p>
+    <a href="logout.php">Logout</a>
+</body>
+</html>
+
+_______________________________________________________________________________________________________________________________________________________
+
+atividade 3:
+index.html - <?php
+session_start();
+if (isset($_SESSION["nome"])) {
+    header("Location: welcome.php");
+    exit();
+}
+
+$nomeCookie = isset($_COOKIE["nome"]) ? $_COOKIE["nome"] : "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST["nome"];
+    $senha = $_POST["senha"];
+    $remember = isset($_POST["remember"]);
+
+    if ($nome == "mars" && $senha == "123") {
+        $_SESSION["nome"] = $nome;
+        if ($remember) {
+            setcookie("nome", $nome, time() + 3600, "/");
+        } else {
+            setcookie("nome", "", time() - 3600, "/");
+        }
+        header("Location: welcome.php");
+        exit();
+    } else {
+        echo "<p style='color:red;'>Usuário ou senha incorretos.</p>";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    <form action="index.php" method="post">
+        Nome: <input type="text" name="nome" value="<?php echo htmlspecialchars($nomeCookie); ?>" required><br>
+        Senha: <input type="password" name="senha" required><br>
+        <input type="checkbox" name="remember" <?php echo isset($_COOKIE["nome"]) ? "checked" : ""; ?>> Lembre-se de mim<br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
+
+
+logout.php -<?php
+session_start();
+session_unset();
+session_destroy();
+setcookie("nome", "", time() - 3600, "/");
+header("Location: index.php");
+exit();
+?>
+
+
+welcome.php - <?php
+session_start();
+if (!isset($_SESSION["nome"])) {
+    header("Location: index.php");
+    exit();
+}
+
+$_SESSION["visitas"] = isset($_SESSION["visitas"]) ? $_SESSION["visitas"] + 1 : 1;
+
+$tema = isset($_COOKIE["tema"]) ? $_COOKIE["tema"] : "claro";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $tema = $_POST["tema"];
+    setcookie("tema", $tema, time() + (86400 * 30), "/");
+    header("Location: welcome.php");
+    exit();
+}
+
+$nome = $_SESSION["nome"];
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <style>
+        body {
+            background-color: <?php echo $tema == "escuro" ? "#333" : "#FFF"; ?>;
+            color: <?php echo $tema == "escuro" ? "#FFF" : "#000"; ?>;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Seja bem-vindo, <?php echo htmlspecialchars($nome); ?>!</h2>
+
+    <form action="welcome.php" method="post">
+        <label>
+            <input type="radio" name="tema" value="claro" <?php echo $tema == "claro" ? "checked" : ""; ?>>
+            Claro
+        </label><br>
+        <label>
+            <input type="radio" name="tema" value="escuro" <?php echo $tema == "escuro" ? "checked" : ""; ?>>
+            Escuro
+        </label><br>
+        <button type="submit">Salvar Tema</button>
+    </form>
+
+    <a href="logout.php">Logout</a>
+</body>
+</html>
+
+_______________________________________________________________________________________________________________________________________________________
+
+atividade 4:
