@@ -1,0 +1,735 @@
+atividade 1:
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<h1>Contando ovelhas</h1>
+    <form method="post">
+        <label for="ovelhas">Entre com os nomes das ovelhas:</label><br>
+        <input type="text" id="ovelhas" name="ovelhas" required>
+    <br><br>
+    <input type="submit" value="Contar Ovelhas">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    function contarOvelhas($nomes) {
+        return count($nomes);
+    }
+
+    $input = $_POST['ovelhas'];
+    $ovelhasArray = array_map('trim', explode(',', $input));
+
+    $totalOvelhas = contarOvelhas($ovelhasArray);
+    echo "<h3>Total de Ovelhas: $totalOvelhas</h3>";
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 2:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contando Ovelhas</title>
+</head>
+<body>
+
+<h1>Verificação de Aprovacao</h1>
+<form method="post">
+    <label for="notas">Entre com as notas dos alunos:</label><br>
+    <input type="text" id="notas" name="notas" required>
+    <br><br>
+    <input type="submit" value="Verificar Aprovacao">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    function verificarAprovacao($notas) {
+        $soma = array_sum($notas);
+        $media = $soma / count($notas);
+        return $media >= 7 ? "Aprovado" : "Reprovado";
+    }
+
+    $input = $_POST['notas'];
+    $notasArray = array_map('trim', explode(',', $input));
+    $resultado = verificarAprovacao($notasArray);
+    echo "Resultado: $resultado";
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 3:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+</head>
+<body>
+
+<h1>Lista de Compras</h1>
+<form method="post">
+    <label for="compras">Entre com os itens da lista:</label><br>
+    <input type="text" id="compras" name="compras" required>
+    <br><br>
+    <input type="submit" value="Verificar lista">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['compras'])) {
+    function listarCompras($compras) {
+        return implode(', ', $compras);
+    }
+
+    $input = $_POST['compras'];
+    $comprasArray = array_map('trim', explode(',', $input));
+    $resultado = listarCompras($comprasArray);
+    echo "<h3>Itens da Lista de Compras:</h3>";
+    echo $resultado;
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 4:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dobrar os Valores</title>
+</head>
+<body>
+
+<h1>Dobrar os Valores</h1>
+<form method="post">
+    <label for="numeros">Entre com os números:</label><br>
+    <input type="text" id="numeros" name="numeros" required>
+    <br><br>
+    <input type="submit" value="Dobrar Números">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['numeros'])) {
+    function dobrarNumeros($numeros) {
+        $numerosDobrados = array();
+        foreach ($numeros as $numero) {
+            $numerosDobrados[] = $numero * 2;
+        }
+        return $numerosDobrados;
+    }
+
+    $input = $_POST['numeros'];
+    $numerosArray = array_map('trim', explode(',', $input)); 
+    $resultado = dobrarNumeros($numerosArray); 
+    echo "<h3>Números Dobrados:</h3>";
+    echo implode(', ', $resultado);
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 5:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Nome</title>
+</head>
+<body>
+
+<h1>Presentes de Natal</h1>
+<form method="post">
+    <label for="nome">Entre com o nome:</label><br>
+    <input type="text" id="nome" name="nome" required>
+    <br><br>
+    <input type="submit" value="Verificar nome">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['nome'])) {
+    function verificarNome($nome, $listaNomes) {
+        return in_array($nome, $listaNomes);
+    }
+
+    $input = trim($_POST['nome']);
+    $listaNomes = ["Gustavo", "Maria", "João", "Ana"];
+
+    if (verificarNome($input, $listaNomes)) {
+        echo "<h3>O nome '$input' está na lista!</h3>";
+    } else {
+        echo "<h3>O nome '$input' não está na lista.</h3>";
+    }
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 6:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizar Livros</title>
+</head>
+<body>
+
+<h1>Organizar Livros da Prateleira</h1>
+<form method="post">
+    <label for="livros">Entre com os títulos dos livros (separados por vírgula):</label><br>
+    <input type="text" id="livros" name="livros" required>
+    <br><br>
+    <input type="submit" value="Organizar">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['livros'])) {
+    function organizarLivros($livros) {
+        sort($livros);
+        return $livros;
+    }
+
+    $input = trim($_POST['livros']);
+    $livrosArray = array_map('trim', explode(',', $input));
+    $livrosOrganizados = organizarLivros($livrosArray);
+
+    echo "<h3>Livros em Ordem Alfabética:</h3>";
+    echo implode(', ', $livrosOrganizados);
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 7:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frutas do césar</title>
+</head>
+<body>
+
+<h1>Frutas do césar</h1>
+<form method="post">
+    <label for="frutas">Entre com o nome das frutas:</label><br>
+    <input type="text" id="frutas" name="frutas" required>
+    <br><br>
+    <input type="submit" value="contar frutas">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['frutas'])) {
+    function contarFrutas($frutas) {
+        return array_count_values($frutas);
+    }
+
+    $input = trim($_POST['frutas']);
+    $frutasArray = array_map('trim', explode(',', $input));
+    $resultado = contarFrutas($frutasArray);
+
+    echo "<h3>Quantidade de Frutas:</h3>";
+    foreach ($resultado as $fruta => $quantidade) {
+        echo "$fruta: $quantidade<br>";
+    }
+}
+?>
+
+</body>
+</html>
+
+__________________________________________________________________________________
+
+atividade 8:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliações de Filmes</title>
+</head>
+<body>
+
+<h1>Avaliações de Filmes</h1>
+<form method="post">
+    <label for="notas">Entre com as notas dos filmes:</label><br>
+    <input type="text" id="notas" name="notas" required>
+    <br><br>
+    <input type="submit" value="Avaliar">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['notas'])) {
+    function avaliarFilmes($notas) {
+        $maior = max($notas);
+        $menor = min($notas);
+        return [$maior, $menor];
+    }
+
+    $input = trim($_POST['notas']);
+    $notasArray = array_map('floatval', array_map('trim', explode(',', $input)));
+    list($maiorNota, $menorNota) = avaliarFilmes($notasArray);
+
+    echo "<h3>Resultados das Avaliações:</h3>";
+    echo "Maior Nota: $maiorNota<br>";
+    echo "Menor Nota: $menorNota<br>";
+}
+?>
+
+</body>
+</html>
+
+___________________________________________________________________________________
+
+atividade 9:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas na Loja</title>
+</head>
+<body>
+
+<h1>Vendas na Loja</h1>
+<form method="post">
+    <label for="vendas">Entre com os valores das vendas:</label><br>
+    <input type="text" id="vendas" name="vendas" required>
+    <br><br>
+    <input type="submit" value="Calcular Faturamento">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['vendas'])) {
+    function calcularFaturamento($vendas) {
+        return array_sum($vendas);
+    }
+
+    $input = trim($_POST['vendas']);
+    $vendasArray = array_map('floatval', array_map('trim', explode(',', $input)));
+    $totalArrecadado = calcularFaturamento($vendasArray);
+
+    echo "<h3>Total Arrecadado:</h3>";
+    echo "R$ " . number_format($totalArrecadado, 2, ',', '.');
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 10:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem de Vogais</title>
+</head>
+<body>
+
+<h1>Vogais no Poema</h1>
+<form method="post">
+    <label for="verso">Entre com um verso do poema:</label><br>
+    <input type="text" id="verso" name="verso" required>
+    <br><br>
+    <input type="submit" value="Contar Vogais">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['verso'])) {
+    function contarVogais($texto) {
+        $vogais = ['a' => 0, 'e' => 0, 'i' => 0, 'o' => 0, 'u' => 0];
+        $texto = strtolower($texto);
+        foreach (str_split($texto) as $char) {
+            if (array_key_exists($char, $vogais)) {
+                $vogais[$char]++;
+            }
+        }
+        return $vogais;
+    }
+
+    $input = trim($_POST['verso']);
+    $resultado = contarVogais($input);
+
+    echo "<h3>Contagem de Vogais:</h3>";
+    foreach ($resultado as $vogal => $quantidade) {
+        echo "$vogal: $quantidade<br>";
+    }
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 11:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuição de Notas</title>
+</head>
+<body>
+
+<h1>Turma da Sandra</h1>
+<form method="post">
+    <label for="notas">Digite as notas dos alunos (separadas por vírgula):</label><br>
+    <input type="text" id="notas" name="notas" required>
+    <br><br>
+    <input type="submit" value="Calcular">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $entrada = $_POST['notas'];
+    $notasArray = explode(',', $entrada);
+    
+    foreach ($notasArray as $key => $nota) {
+        $notasArray[$key] = floatval(trim($nota));
+    }
+
+    $soma = array_sum($notasArray);
+    $media = $soma / count($notasArray);
+    
+    $acimaMedia = 0;
+    $abaixoMedia = 0;
+
+    foreach ($notasArray as $nota) {
+        if ($nota > $media) {
+            $acimaMedia++;
+        } elseif ($nota < $media) {
+            $abaixoMedia++;
+        }
+    }
+
+    echo "<h3>Resultados:</h3>";
+    echo "Alunos com nota acima da média: $acimaMedia<br>";
+    echo "Alunos com nota abaixo da média: $abaixoMedia<br>";
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 12:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Convidados</title>
+</head>
+<body>
+
+<h1>Lista de Convidados</h1>
+<form method="post">
+    <label for="convidados">Todos os convidados (separados por vírgula):</label><br>
+    <input type="text" id="convidados" name="convidados" required>
+    <br><br>
+    <label for="confirmados">Convidados que confirmaram presença (separados por vírgula):</label><br>
+    <input type="text" id="confirmados" name="confirmados" required>
+    <br><br>
+    <input type="submit" value="Ver Lista de Presentes">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $todosConvidados = explode(',', trim($_POST['convidados']));
+    $convidadosConfirmados = explode(',', trim($_POST['confirmados']));
+
+    function listarPresentes($todos, $confirmados) {
+        $presentes = [];
+        foreach ($confirmados as $confirmado) {
+            $confirmado = trim($confirmado);
+            if (in_array($confirmado, $todos)) {
+                $presentes[] = $confirmado;
+            }
+        }
+        return $presentes;
+    }
+
+    $presentes = listarPresentes($todosConvidados, $convidadosConfirmados);
+
+    echo "<h3>Lista de Convidados que vão à festa:</h3>";
+    echo implode(', ', $presentes);
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 13:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventário da Loja do Marcelo</title>
+</head>
+<body>
+
+<h1>Inventário da Loja do Marcelo</h1>
+<form method="post">
+    <label for="produtos">Digite os produtos e suas quantidades (ex: Camisa,5; Calça,15; Tênis,8):</label><br>
+    <input type="text" id="produtos" name="produtos" required>
+    <br><br>
+    <input type="submit" value="Verificar Estoque">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $entrada = $_POST['produtos'];
+    $produtosArray = explode(';', $entrada);
+    $estoque_minimo = 10;
+    $produtos_abaixo = [];
+
+    foreach ($produtosArray as $produto) {
+        list($nome, $quantidade) = explode(',', trim($produto));
+        if (intval($quantidade) < $estoque_minimo) {
+            $produtos_abaixo[] = trim($nome);
+        }
+    }
+
+    echo "<h3>Produtos abaixo do estoque mínimo:</h3>";
+    if (empty($produtos_abaixo)) {
+        echo "Nenhum produto está abaixo do estoque mínimo.";
+    } else {
+        echo implode(", ", $produtos_abaixo);
+    }
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 14:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho da Equipe de Vendas</title>
+</head>
+<body>
+
+<h1>Desempenho da Equipe de Vendas do Roberto</h1>
+<form method="post">
+    <label for="vendedores">Digite os vendedores e suas vendas mensais (ex: Ana,15000; Carlos,22000; Fernanda,18000):</label><br>
+    <input type="text" id="vendedores" name="vendedores" required>
+    <br><br>
+    <input type="submit" value="Calcular Melhor Vendedor">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $entrada = $_POST['vendedores'];
+    $vendedoresArray = explode(';', $entrada);
+    $melhorVendedor = null;
+    $maiorFaturamento = 0;
+
+    foreach ($vendedoresArray as $vendedor) {
+        list($nome, $faturamento) = explode(',', trim($vendedor));
+        $faturamento = floatval(trim($faturamento));
+
+        if ($faturamento > $maiorFaturamento) {
+            $maiorFaturamento = $faturamento;
+            $melhorVendedor = trim($nome);
+        }
+    }
+
+    echo "<h3>Resultados:</h3>";
+    if ($melhorVendedor) {
+        echo "O vendedor com o maior faturamento é: $melhorVendedor (R$ " . number_format($maiorFaturamento, 2, ',', '.') . ")";
+    } else {
+        echo "Nenhum vendedor registrado.";
+    }
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 15:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desempenho da Equipe de Vendas</title>
+</head>
+<body>
+
+<h1>Desempenho da Equipe de Vendas do Roberto</h1>
+<form method="post">
+    <label for="vendedores">Digite os vendedores e suas vendas mensais (ex: Ana,15000; Carlos,22000; Fernanda,18000):</label><br>
+    <input type="text" id="vendedores" name="vendedores" required>
+    <br><br>
+    <input type="submit" value="Calcular Melhor Vendedor">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $entrada = $_POST['vendedores'];
+    $vendedoresArray = explode(';', $entrada);
+    $melhorVendedor = null;
+    $maiorFaturamento = 0;
+
+    foreach ($vendedoresArray as $vendedor) {
+        list($nome, $faturamento) = explode(',', trim($vendedor));
+        $faturamento = floatval(trim($faturamento));
+
+        if ($faturamento > $maiorFaturamento) {
+            $maiorFaturamento = $faturamento;
+            $melhorVendedor = trim($nome);
+        }
+    }
+
+    echo "<h3>Resultados:</h3>";
+    if ($melhorVendedor) {
+        echo "O vendedor com o maior faturamento é: $melhorVendedor (R$ " . number_format($maiorFaturamento, 2, ',', '.') . ")";
+    } else {
+        echo "Nenhum vendedor registrado.";
+    }
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 16:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizando o Almoxarifado do José</title>
+</head>
+<body>
+
+<h1>Organizando o Almoxarifado da Fábrica do José</h1>
+<form method="post">
+    <label for="materiais">Digite os materiais e suas quantidades (ex: "Ferro,50; Madeira,20; Plástico,30"):</label><br>
+    <input type="text" id="materiais" name="materiais" required>
+    <br><br>
+    <input type="submit" value="Organizar">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $entrada = $_POST['materiais'];
+    $materiaisArray = explode(';', $entrada);
+    $materiais = [];
+
+    foreach ($materiaisArray as $material) {
+        list($nome, $quantidade) = explode(',', trim($material));
+        $materiais[] = ['nome' => trim($nome), 'quantidade' => intval(trim($quantidade))];
+    }
+
+    usort($materiais, function($a, $b) {
+        return $b['quantidade'] <=> $a['quantidade'];
+    });
+
+    echo "<h3>Materiais Organizados:</h3>";
+    foreach ($materiais as $material) {
+        echo "{$material['nome']}: {$material['quantidade']}<br>";
+    }
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+atividade 17:
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Saldo Mensal da Empresa do Ricardo</title>
+</head>
+<body>
+
+<h1>Saldo Mensal da Empresa do Ricardo</h1>
+<form method="post">
+    <label for="receitas">Digite as receitas (separadas por vírgula):</label><br>
+    <input type="text" id="receitas" name="receitas" required>
+    <br><br>
+    <label for="despesas">Digite as despesas (separadas por vírgula):</label><br>
+    <input type="text" id="despesas" name="despesas" required>
+    <br><br>
+    <input type="submit" value="Calcular Saldo">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $receitasInput = $_POST['receitas'];
+    $despesasInput = $_POST['despesas'];
+    
+    $receitasArray = array_map('floatval', explode(',', $receitasInput));
+    $despesasArray = array_map('floatval', explode(',', $despesasInput));
+    
+    $totalReceitas = array_sum($receitasArray);
+    $totalDespesas = array_sum($despesasArray);
+    
+    $saldo = $totalReceitas - $totalDespesas;
+
+    echo "<h3>Resultados:</h3>";
+    echo "Total de Receitas: R$ " . number_format($totalReceitas, 2, ',', '.') . "<br>";
+    echo "Total de Despesas: R$ " . number_format($totalDespesas, 2, ',', '.') . "<br>";
+    echo "Saldo Final: R$ " . number_format($saldo, 2, ',', '.') . "<br>";
+}
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________________
+
+
